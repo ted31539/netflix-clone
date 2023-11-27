@@ -5,6 +5,7 @@ import { getSession,signOut } from 'next-auth/react';
 import { NextPageContext } from 'next'
 
 import useCurrentUser from '@/hooks/useCurrentUser';
+import Navbar from '@/components/Navbar';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,9 +33,10 @@ export default function Home() {
 
   return (
     <>
-<div className="text-red-500">hi</div>
-<p className='text-white'>logged in as : {user?.email} </p>
-<button onClick={()=>signOut()} className='w-full bg-white h-10'>logout</button>
+    <Navbar />
+    
+    
+
     </>
   )
 }
