@@ -6,6 +6,7 @@ import { NextPageContext } from 'next'
 
 import useCurrentUser from '@/hooks/useCurrentUser';
 import Navbar from '@/components/Navbar';
+import BillBoard from '@/components/Billboard'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -34,9 +35,7 @@ export default function Home() {
   return (
     <>
     <Navbar />
-    
-    
-
+    <BillBoard />
     </>
   )
 }
