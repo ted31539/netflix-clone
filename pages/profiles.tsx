@@ -44,22 +44,5 @@ const Profiles = ()=> {
     </div>
   )
 }
-/*
-          <div onClick={()=>{}}>
-
-
-
-
-
-<div className="w-44 h-44 rounded-md flex items-center justify-center border-2 border-transparent group-hover:cursor-pointer group-hover:border-white overflow-hidden">
-    </div>
-
-    <div className='mt-4 text-gray-400 text-2xl text-center group-hover:text-white'>Name</div>
-
-</div>
-
-            </div>
-          </div>
-*/
 
 export default Profiles;
