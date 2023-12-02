@@ -1,12 +1,18 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import { BsFillPlayFill } from "react-icons/bs";
 
+import FavoriteButton from './FavoriteButton';
 
 interface MovieCardProps {
   data: Record<string, any>,
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
+  const router = useRouter();
+
+  const redirectToWatch = () => router.push(`/watch/${data.id}`);
+
   return (
     <div className="group bg-zinc-900 col-span relative h-[12vw]">
       <img
@@ -33,10 +39,10 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
           src={data.thumbnailUrl} alt="thumbnai" />
        <div className="z-10 bg-zinc-800 p-2 absolute w-full transition shadow-md rounded-b-md">
           <div className="flex flex-row items-center gap-3">
-            <div onClick={()=>{}} className="cursor-pointer w-6 h-6 lg:w-10 lg:h-10 bg-white rounded-full flex justify-center items-center transition hover:bg-neutral-300">
-              <BsFillPlayFill size={30} className="" />
+            <div onClick={redirectToWatch} className="cursor-pointer w-6 h-6 lg:w-10 lg:h-10 bg-white rounded-full flex justify-center items-center transition hover:bg-neutral-300">
+              <BsFillPlayFill size={30} className="text-black w-4 lg:w-6" />
             </div>
-            {/* <FavoriteButton movieId={data.id} /> */}
+       <FavoriteButton movieId={data.id} /> 
             {/* <div onClick={() => {}} className="cursor-pointer ml-auto group/item w-6 h-6 lg:w-10 lg:h-10 border-white border-2 rounded-full flex justify-center items-center transition hover:border-neutral-300">
               <ChevronDownIcon className="text-white group-hover/item:text-neutral-300 w-4 lg:w-6" />
             </div> */}

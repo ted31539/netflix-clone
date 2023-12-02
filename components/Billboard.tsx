@@ -1,10 +1,10 @@
-import React from 'react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
-import useBillboard from '@/hooks/useBillboard'
+import useBillboard from '@/hooks/useBillboard';
+import PlayButton from './PlayButton';
 
 const Billboard = ()=> {
-    const {data} = useBillboard();
+    const { data } = useBillboard();
 
   return (
     <div className='relative h-[56.25vw]'>
@@ -17,6 +17,7 @@ const Billboard = ()=> {
                 {data?.description}
             </p>
             <div className='flex flex-row items-center mt-3 md:mt-4 gap-3'>
+                <PlayButton movieId={data?.id} />
                 <button className="bg-white
             text-white
               bg-opacity-30 
