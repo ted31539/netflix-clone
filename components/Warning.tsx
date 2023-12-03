@@ -1,4 +1,6 @@
+'use client'
 import React from 'react';
+
 
 const Warning:React.FC = ()=>{
   return <div className='flex items-center justify-center flex-col mt-auto py-4'>

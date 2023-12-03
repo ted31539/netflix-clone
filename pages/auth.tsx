@@ -22,12 +22,11 @@ export async function getServerSideProps(context: NextPageContext) {
   }
 
   return {
-    props: { session }
+    props: { }
   }
 }
 
-export default function Auth({session}:any) {
-  alert(JSON.stringify(session))
+export default function Auth() {
   const router = useRouter()
 
   const [email, setEmail] = useState('');
@@ -121,7 +120,7 @@ export default function Auth({session}:any) {
             </p>
           </div>
         </div>
-
+           
         <Warning />
 
       </div>
