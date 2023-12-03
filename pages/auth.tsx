@@ -1,9 +1,10 @@
-import Input from '@/components/Input';
 import axios from 'axios';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
+import Input from '@/components/Input';
+import Warning from '@/components/Warning';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 
@@ -52,10 +53,12 @@ export default function Auth() {
 
   return (
     <div className="realtvie h-full w-full bg-[url('/images/hero.jpg')] bg-cover bg-fixed bg-center">
-      <div className="h-full w-full bg-black lg:bg-opacity-50">
+      <div className="h-full w-full bg-black lg:bg-opacity-50 flex flex-col">
+        
         <nav className="px-12 py-5">
           <img src="/images/logo.png" alt="logo" className="h-12" />
         </nav>
+
         <div className="flex justify-center">
           <div className="mt-2 w-full self-center rounded-md bg-black bg-opacity-70 px-16 py-16 lg:w-2/5 lg:max-w-md">
             <h2 className="font-senibold mb-8 text-4xl text-white">{varient === 'login' ? 'Sign in' : 'Register'}</h2>
@@ -98,7 +101,12 @@ export default function Auth() {
             </p>
           </div>
         </div>
+
+        <Warning />
+
       </div>
+
+     
     </div>
   );
 }
