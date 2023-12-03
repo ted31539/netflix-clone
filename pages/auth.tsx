@@ -12,9 +12,6 @@ import { FcGoogle } from 'react-icons/fc';
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
 
-  // TODO remove
-  console.log({session})
-
   if (session) {
     return {
       redirect: {
@@ -25,11 +22,12 @@ export async function getServerSideProps(context: NextPageContext) {
   }
 
   return {
-    props: {}
+    props: { session }
   }
 }
 
-export default function Auth() {
+export default function Auth({session}:any) {
+  alert(JSON.stringify(session))
   const router = useRouter()
 
   const [email, setEmail] = useState('');
@@ -55,7 +53,7 @@ export default function Auth() {
     } catch (error) {
         console.log(error);
     }
-  }, [email, password]); 
+  }, [email, password,router]); 
 
   const register = useCallback(async () => {
     try {
