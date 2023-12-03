@@ -4,8 +4,10 @@ import { getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
+import Button from '@/components/Button';
 import Input from '@/components/Input';
 import Warning from '@/components/Warning';
+import useLoading from '@/hooks/useLoading';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 
@@ -28,7 +30,9 @@ export async function getServerSideProps(context: NextPageContext) {
 
 export default function Auth() {
   const router = useRouter()
+  const {isLoading, openLoading, closeLoading} = useLoading();
 
+  const [erorMsg,setErrorMsg] = useState('')
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -39,36 +43,45 @@ export default function Auth() {
     setVareint((currentVarient) => (currentVarient === 'login' ? 'register' : 'login'));
   }, []);
 
-    const login = useCallback(async () => {
+  const login = useCallback(async () => {
     try {
-      await signIn('credentials', {
+      openLoading();
+      setErrorMsg('');
+      if(!email || !password) throw new Error('Epmty fileds');
+     const res = await signIn('credentials', {
         email,
         password,
         redirect:false,
         callbackUrl:"/"
 
       });
+      if(!res?.ok) throw new Error(res?.error)
+      closeLoading();
       router.push('/profiles');
-    } catch (error) {
+    } catch (error:any) {
         console.log(error);
+        closeLoading();
+        setErrorMsg(error?.message ?  error?.message : `Somthing Wrong`)
     }
   }, [email, password,router]); 
 
   const register = useCallback(async () => {
     try {
-      await axios.post('/api/register', {
+      openLoading();
+      setErrorMsg('');
+      if(!email || !password || !name) throw new Error('Epmty fileds');
+      const res = await axios.post('/api/register', {
         email,
         name,
         password
       });
-
       login()
-    } catch (error) {
-        console.log(error);
+    } catch (error:any) {
+      console.log(error);
+      closeLoading();
+      setErrorMsg(error?.message ?  error?.message : `Somthing Wrong`)
     }
-  }, [email, name, password,login]);
-
-
+  }, [email, name, password, login]);
 
   return (
     <div className="realtvie h-full w-full bg-[url('/images/hero.jpg')] bg-cover bg-fixed bg-center">
@@ -101,9 +114,10 @@ export default function Auth() {
                 value={password}
               />
             </form>
-            <button onClick={varient === 'login' ? login : register} className="mt-10 w-full rounded-md bg-red-600 py-3 text-white transition hover:bg-red-700">
+           { erorMsg ? <p className="mt-1 text-red-500">{erorMsg}</p> : <></>}
+            <Button loading={isLoading} disabled={isLoading} onClick={varient === 'login' ? login : register} className="mt-10 w-full rounded-md bg-red-600 py-3 text-white transition hover:bg-red-700">
               {varient === 'login' ? 'Login' : 'Sign up'}
-            </button>
+            </Button>
                 <div className="flex flex-row items-start gap-4 mt-8 justify-center">
                   <div onClick={()=>signIn('google',{callbackUrl:'/profiles'})}  className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'>
                   <FcGoogle size={30} />
