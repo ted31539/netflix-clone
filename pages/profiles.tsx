@@ -7,6 +7,9 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
 
+  // TODO remove
+  console.log({session})
+
   if (!session) {
     return {
       redirect: {

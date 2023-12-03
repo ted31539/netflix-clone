@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { signIn } from 'next-auth/react';
+import { NextPageContext } from 'next';
+import { getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
@@ -7,6 +8,23 @@ import Input from '@/components/Input';
 import Warning from '@/components/Warning';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
+}
 
 export default function Auth() {
   const router = useRouter()
@@ -26,10 +44,11 @@ export default function Auth() {
       await signIn('credentials', {
         email,
         password,
-        redirect:true,
-        callbackUrl:"/profiles"
+        redirect:false,
+        callbackUrl:"/"
 
       });
+      router.push('/profiles');
     } catch (error) {
         console.log(error);
     }
@@ -63,7 +82,7 @@ export default function Auth() {
           <div className="mt-2 w-full self-center rounded-md bg-black bg-opacity-70 px-16 py-16 lg:w-2/5 lg:max-w-md">
             <h2 className="font-senibold mb-8 text-4xl text-white">{varient === 'login' ? 'Sign in' : 'Register'}</h2>
 
-            <div className="flex flex-col gap-4">
+            <form className="flex flex-col gap-4">
               {varient === 'register' && (
                 <Input label="Username" onChange={(e: any) => setName(e.target.value)} id="name" value={name} />
               )}
@@ -81,7 +100,7 @@ export default function Auth() {
                 type="password"
                 value={password}
               />
-            </div>
+            </form>
             <button onClick={varient === 'login' ? login : register} className="mt-10 w-full rounded-md bg-red-600 py-3 text-white transition hover:bg-red-700">
               {varient === 'login' ? 'Login' : 'Sign up'}
             </button>
